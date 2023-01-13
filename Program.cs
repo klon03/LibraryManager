@@ -10,6 +10,8 @@ namespace LibraryManager
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Elo"); 
+            Console.WriteLine("Elo 2");
         }
     }
 }
