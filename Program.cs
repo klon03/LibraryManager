@@ -15,7 +15,7 @@ namespace LibraryManager
 
             Catalog Catalog = new Catalog(@"C:\Users\Kajetan\Desktop\Studia CDV\Programowanie obiektowe\11 stycznia\data\books.csv");
             Catalog.ShowCategories();
-            // komentarz kajetana
+            // komentarz kajetana 2
         }
     }
 }
