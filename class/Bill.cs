@@ -10,6 +10,8 @@ namespace LibraryManager
     {
         public string Name { get; set; }
         public string Surname { get; set; }
+        public string Nip = "";
+        List<Book> books = new List<Book>();
 
         public Bill() 
         {
@@ -17,6 +19,11 @@ namespace LibraryManager
             Name = Console.ReadLine();
             Console.WriteLine("Proszę podać nazwisko osoby wypożyczającej.");
             Surname = Console.ReadLine();
+        }
+
+        public void AddBook(string id)
+        {
+            books.Add(book);
         }
     }
 
@@ -27,6 +34,12 @@ namespace LibraryManager
 
     internal class Invoice : Bill
     {
+        public Invoice ()
+        {
+            Console.WriteLine("Proszę podać NIP.");
+            Nip = Console.ReadLine();
+
+        }
 
     }
 }
