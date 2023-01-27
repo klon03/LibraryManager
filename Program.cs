@@ -10,11 +10,12 @@ namespace LibraryManager
     {
         static void Main(string[] args)
         {
-            Catalog catalog = new Catalog(@"./data/books.csv");
-            catalog.ShowCategories();
-            catalog.ShowBooks();
-
-            Console.ReadLine();
+            while (true)
+            {
+                Catalog catalog = new Catalog(@"./data/books.csv");
+                catalog.showCategory("Fantasy");
+                Console.ReadLine();
+            }
         }
     }
 }

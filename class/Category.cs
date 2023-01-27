@@ -6,7 +6,7 @@ namespace LibraryManager
     internal class Category
     {
         public string name;
-        List<Book> books = new List<Book>();
+        public List<Book> books = new List<Book>();
         public Category(string name)
         {
             this.name = name;
@@ -16,12 +16,9 @@ namespace LibraryManager
         {
             Console.WriteLine("Nazwa: {0}", name);
             Console.WriteLine("-------------------");
-            int i = 1;
             foreach (var book in books)
             {
-                Console.WriteLine("Ksiazka {0}: {1}", i, book);
-                //Console.WriteLine(book.Value);
-                i++;
+                Console.WriteLine(book.id + " " + book.title + " " + book.price + " " + book.status);
             }
 
         }
@@ -40,5 +37,7 @@ namespace LibraryManager
         {
             books.Remove(book);
         }
+
+
     }
 }

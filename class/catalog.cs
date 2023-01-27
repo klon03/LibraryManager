@@ -36,7 +36,7 @@ namespace LibraryManager
                     BookList.Add(newBook);
 
                     // jeżeli lista z kategoriami zawiera już daną kategorię
-                    if (CategoryList.Any(item => item.name == values[4]))
+                    if (CategoryList.Any(item => item.name == values[3]))
                     {
                         // przechodzenie po liscie i sprawdzanie do ktorej kategorii dodac ksiazke
                         foreach (var cat in CategoryList)
@@ -49,33 +49,9 @@ namespace LibraryManager
                     {
                         // tworzenie nowej kategorii i dodawanie do niej ksiazki
                         CategoryList.Add(new Category(values[3]));
-                        // Jeśli utworze nową kategorię to wiem że ta do której chce dodać książkę jest na końcu
+                        // Jesli utworze nowa kategoria to wiem ze ta do ktorej chce dodać ksiazke jest na koncu
                         CategoryList[CategoryList.Count - 1].addBook(newBook);
                     }
-
-
-
-                    /*
-                    if (CategoryList.Contains(values[categoryIndex]))
-                    {
-                        //dodawanie do kategorii
-                        
-                    }
-                    else
-                    {
-                        //tworzenie nowej kategorii
-                        CategoryList.Add(new Category(values[5]);
-                    }
-                    */
-
-                    /*foreach (var item in values)
-                    {
-                        listA.Add(item);
-                    }
-                    foreach (var coloumn1 in listA)
-                    {
-                        Console.WriteLine(coloumn1);
-                    }*/
                 }
             }
             else
@@ -97,6 +73,55 @@ namespace LibraryManager
             {
                 Console.WriteLine(book.id + " " + book.title);
             }
+        }
+
+        public void showCategory(string category)
+        {
+            foreach (var cat in CategoryList)
+            {
+                if (cat.name == category)
+                {
+                    cat.ShowCategoryInfo();
+                    break;
+                }
+            }
+        }
+
+        public void DeleteBook()
+        {
+            int delId;
+            bool found = false;
+
+            this.ShowBooks();
+            while (!found)
+            {
+                Console.Write("Podaj id książki, którą chcesz usunąć: ");
+                delId = Convert.ToInt32(Console.ReadLine());
+                string delCat;
+
+                // Usuwanie z globalnej listy ksiazek
+                foreach (var book in BookList)
+                {
+                    if (book.id == delId)
+                    {
+                        delCat = book.category;
+                        BookList.Remove(book);
+                        found = true;
+
+                        foreach (var cat in CategoryList)
+                        {
+                            if (cat.name == delCat)
+                            {
+                                cat.removeBook(book);
+                            }
+                        }
+                        break;
+                    }
+                }
+                
+            }
+            
+
         }
     }
 }
