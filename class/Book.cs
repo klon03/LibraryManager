@@ -1,40 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace LibraryManager
 {
-    internal class Book
+    public class Book
     {
-        private string category, title, description;
-        private int id;
-        private byte status;
-        private double price;
+        public int id { get; set; }
+        public string title { get; set; }
+        public string description { get; set; }
+        public decimal price { get; set; }
+        public BookStatus status { get; set; }
 
-        public Book(string row, string category, int id)
+        public enum BookStatus
         {
-            var values = row.Split(';');
-            this.category = category;
+            Dostepna,
+            Wypozyczona,
+        }
+
+
+        public Book(string title, int id, string description, decimal price, BookStatus status)
+        {
             this.id = id;
-            this.title = values[0];
-            this.description = values[1];
-            this.price = Convert.ToDouble(values[2]);
-            this.status = Convert.ToByte(values[3]);
-
-            IDictionary<int, string> numberNames = new Dictionary<int, string>();
-            numberNames.Add(1, "One"); //adding a key/value using the Add() method
-            numberNames.Add(2, "Two");
-            numberNames.Add(3, "Three");
-
+            this.title = title;
+            this.description = description;
+            this.price = price;
+            this.status = status;
         }
 
         public void ShowData()
         {
-            Console.WriteLine("ID: {0}", id);
-            Console.WriteLine("Kategoria: {0}", category);
-            Console.WriteLine("Tytuł: {0}", category);
+            Console.WriteLine($"Id: {id}");
+            Console.WriteLine($"Tytul: {title}");
+            Console.WriteLine($"Opis: {description}");
+            Console.WriteLine($"Cena: {price}");
+            Console.WriteLine($"Status: {status}");
+        }
+
+        public void EditBook(string title, string description, decimal price, BookStatus status)
+        {
+            this.title = title;
+            this.description = description;
+            this.price = price;
+            this.status = status;
         }
     }
 }
