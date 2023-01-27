@@ -12,6 +12,7 @@ namespace LibraryManager
         public int id { get; set; }
         public string title { get; set; }
         public string description { get; set; }
+        public string category { get; set; }
         public decimal price { get; set; }
         public BookStatus status { get; set; }
 
@@ -22,11 +23,12 @@ namespace LibraryManager
         }
 
 
-        public Book(string title, int id, string description, decimal price, BookStatus status)
+        public Book(int id, string title, string description, string category, decimal price, BookStatus status)
         {
             this.id = id;
             this.title = title;
             this.description = description;
+            this.category = category;
             this.price = price;
             this.status = status;
         }
@@ -40,10 +42,11 @@ namespace LibraryManager
             Console.WriteLine($"Status: {status}");
         }
 
-        public void EditBook(string title, string description, decimal price, BookStatus status)
+        public void EditBook(string title, string description, string category, decimal price, BookStatus status)
         {
             this.title = title;
             this.description = description;
+            this.category = category;
             this.price = price;
             this.status = status;
         }

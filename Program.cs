@@ -10,9 +10,10 @@ namespace LibraryManager
     {
         static void Main(string[] args)
         {
-            Catalog Catalog = new Catalog(@"./data/books.csv");
-            Catalog.ShowCategories();
-            Console.WriteLine("ABC");
+            Catalog catalog = new Catalog(@"./data/books.csv");
+            catalog.ShowCategories();
+            catalog.ShowBooks();
+
             Console.ReadLine();
         }
     }

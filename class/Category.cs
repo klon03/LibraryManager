@@ -5,7 +5,7 @@ namespace LibraryManager
 {
     internal class Category
     {
-        private string name;
+        public string name;
         List<Book> books = new List<Book>();
         public Category(string name)
         {
@@ -29,6 +29,11 @@ namespace LibraryManager
         public void addBook(Book book)
         {
             books.Add(book);
+        }
+
+        public void editName(string name)
+        {
+            this.name = name;
         }
 
         public void removeBook(Book book)
