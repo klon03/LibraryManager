@@ -13,7 +13,10 @@ namespace LibraryManager
             while (true)
             {
                 Catalog catalog = new Catalog(@"./data/books.csv");
-                catalog.showCategory("Fantasy");
+                catalog.ShowCategories();
+
+                catalog.DeleteBook();
+
                 Console.ReadLine();
             }
         }

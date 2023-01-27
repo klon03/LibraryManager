@@ -11,7 +11,7 @@ namespace LibraryManager
     {
         private string[] tableHead;
         List<Category> CategoryList = new List<Category>();
-        List<Book> BookList = new List<Book>();
+        public List<Book> BookList = new List<Book>();
 
         public Catalog(string filePath)
         {
@@ -58,6 +58,7 @@ namespace LibraryManager
             {
                 Console.WriteLine("File doesn't exist");
             }
+            reader.Close();
         }
 
         public void ShowCategories()
@@ -72,6 +73,18 @@ namespace LibraryManager
             foreach(var book in BookList)
             {
                 Console.WriteLine(book.id + " " + book.title);
+            }
+        }
+
+        public void ShowBook(int id)
+        {
+            foreach(var book in BookList)
+            {
+                if (book.id == id)
+                {
+                    Console.WriteLine(book.id + " " + book.title);
+                }
+                break;
             }
         }
 
@@ -92,6 +105,7 @@ namespace LibraryManager
             int delId;
             bool found = false;
 
+            // Tego while'a i showBooks mozna w sumie usunac bo ma to robic front, ktory przekaze do metody id ksiazki i reszta podziala juz normalnie
             this.ShowBooks();
             while (!found)
             {
@@ -107,12 +121,17 @@ namespace LibraryManager
                         delCat = book.category;
                         BookList.Remove(book);
                         found = true;
-
+                        // Usuwanie z kategorii
                         foreach (var cat in CategoryList)
                         {
                             if (cat.name == delCat)
                             {
                                 cat.removeBook(book);
+                                // Usuniecie kategorii jesli po usunieciu ksiazki lista pozostaje pusta
+                                if (cat.books.Count == 0) {
+                                    CategoryList.Remove(cat);
+                                    break;
+                                }
                             }
                         }
                         break;
@@ -120,8 +139,15 @@ namespace LibraryManager
                 }
                 
             }
-            
 
+            // Zapis zaktualizowanej listy do pliku
+            var newCsv = new StringBuilder();
+            newCsv.Append("ID;Title;Description;Price;Status");
+            foreach (var book in BookList)
+            {
+                newCsv.Append(book.exportBookData());
+            }
+            File.WriteAllText("./data/books.csv", newCsv.ToString());
         }
     }
 }

@@ -7,14 +7,16 @@ using System.Threading.Tasks;
 
 namespace LibraryManager
 {
-    public class Book
+    internal class Rental
     {
+
         public int id { get; set; }
-        public string title { get; set; }
-        public string description { get; set; }
-        public string category { get; set; }
+        public int userID { get; set; }
+        public string start { get; set; }
+        public string end { get; set; }
         public decimal price { get; set; }
         public BookStatus status { get; set; }
+        
 
         public enum BookStatus
         {
@@ -23,12 +25,12 @@ namespace LibraryManager
         }
 
 
-        public Book(int id, string title, string description, string category, decimal price, BookStatus status)
+        public Rental(int id, string userId, string start, string end, decimal price, BookStatus status)
         {
             this.id = id;
-            this.title = title;
-            this.description = description;
-            this.category = category;
+            this.userID = userID;
+            this.start = start;
+            this.end = end;
             this.price = price;
             this.status = status;
         }
@@ -36,10 +38,11 @@ namespace LibraryManager
         public void ShowData()
         {
             Console.WriteLine($"Id: {id}");
-            Console.WriteLine($"Tytul: {title}");
-            Console.WriteLine($"Opis: {description}");
-            Console.WriteLine($"Cena: {price}");
-            Console.WriteLine($"Status: {status}");
+            Console.WriteLine($"Uzytkownik: {userID}");
+            Console.WriteLine($"Data wyp: {start}");
+            Console.WriteLine($"Data zw: {end}");
+            Console.WriteLine($"Cena wypozyczenia: {price}");
+            Console.Write($"Status wyp: {status}")
         }
 
         public void EditBook(string title, string description, string category, decimal price, BookStatus status)
@@ -49,13 +52,6 @@ namespace LibraryManager
             this.category = category;
             this.price = price;
             this.status = status;
-        }
-
-        public string exportBookData()
-        {
-
-            string tmpStatus = this.status == BookStatus.Dostepna ? "1" : "0";
-            return $"{this.id};{this.title};{this.description};{this.category};{this.price};{tmpStatus}\n";
         }
     }
 }
