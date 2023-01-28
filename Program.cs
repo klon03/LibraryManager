@@ -10,16 +10,24 @@ namespace LibraryManager
     {
         static void Main(string[] args)
         {
+            Dictionary<string, string> actions = new Dictionary<string, string>();
+
+            Book lotr = new Book("Lord of the Rings;Akcja, kosmici, elfy; 15; 1", "Przygodowa", 1);
+            //lotr.ShowData();
+
+            Catalog Catalog = new Catalog(@"data\books.csv");
+            //Catalog.ShowCategories();
+            
+            
+            Frontend ui = new Frontend();
+
             while (true)
             {
-                Catalog catalog = new Catalog(@"./data/books.csv");
-                catalog.ShowCategories();
 
-                catalog.DeleteBook();
-
-                Console.ReadLine();
-             }
-  
+                ui.ShowActions();
+                ui.input = Console.ReadLine();
+                ui.Execute();
+            }
         }
     }
 }
