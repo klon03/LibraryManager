@@ -18,7 +18,8 @@ namespace LibraryManager
                 catalog.DeleteBook();
 
                 Console.ReadLine();
-            }
+             }
+  
         }
     }
 }
