@@ -51,19 +51,15 @@ namespace LibraryManager
 
         public void RemoveBook(int id)
         {
-            bool found = false;
-            foreach (var book in books)
-            {
-                if (book.id == id)
-                {
-                    books.Remove(book);
-                    found = true;  
-                }
-            }
-            if (!found)
+            Book book = Program.Catalog.GetBook(id);
+            if (book == null)
             {
                 Console.WriteLine("Nie ma takiej książki w rachunku.");
                 Frontend.Wait();
+            }
+            else
+            {
+                books.Remove(book);
             }
         }
 

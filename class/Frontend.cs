@@ -97,7 +97,7 @@ namespace LibraryManager
             var table = new ConsoleTable("ID", "Tytuł", "Opis", "Kategoria", "Cena", "Status");
             foreach (var x in List)
             {
-                var formattedDescription = x.description.Length > 30 ? x.description.Substring(0, 30) + "..." : x.description;
+                var formattedDescription = x.description.Length > 25 ? x.description.Substring(0, 25) + "..." : x.description;
                 table.AddRow(x.id, x.title, formattedDescription, x.category, x.price, x.status);
             }
 
