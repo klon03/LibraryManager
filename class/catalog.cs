@@ -171,7 +171,7 @@ namespace LibraryManager
         public void SaveToFile()
         {
             var newCsv = new StringBuilder();
-            newCsv.Append("ID;Title;Description;Price;Status\n");
+            newCsv.Append("ID;Title;Description;Category;Price;Status\n");
             foreach (var b in BookList)
             {
                 newCsv.Append(b.exportBookData());

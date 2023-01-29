@@ -242,7 +242,8 @@ namespace LibraryManager
 
                         if (action[0] == "changeCategoryName")
                         {
-                            Console.WriteLine("Podaj kategorię do zmiany:");
+                            Program.Catalog.ShowCategories();
+                            Console.WriteLine("\nPodaj kategorię do zmiany:");
                             string from = Console.ReadLine();
 
                             Console.WriteLine("Podaj nową nazwę kategorii:");
