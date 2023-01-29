@@ -21,10 +21,9 @@ namespace LibraryManager
 
 
             Frontend ui = new Frontend();
-
             while (true)
             {
-
+                
                 ui.ShowActions();
                 ui.input = Console.ReadLine();
                 Console.WriteLine("");

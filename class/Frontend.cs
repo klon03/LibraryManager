@@ -21,7 +21,8 @@ namespace LibraryManager
             AddAction("showCategories", "Wyświetl wszystkie kategorie.");
             AddAction("showBooks", "Wyświetl wszystkie książki.");
             AddAction("showBook", "Wyświetl dane książki.");
-
+            AddAction("showBooksCategory", "Wyświetl wszystkie książki z wybranej kategorii.");
+            AddAction("editBook", "Edytuj książkę.");
         }
 
         public void ShowActions()
@@ -51,7 +52,7 @@ namespace LibraryManager
             {
                 Console.WriteLine(i.ToString() + ". " + item.value[1]);
 
-                if (actions.Count != item.index && flag == false && actions[item.index + 1][0].Contains("Receipt"))
+                if (actions.Count != item.index-1 && flag == false && actions[item.index + 1][0].Contains("Receipt"))
                 {
                     Console.WriteLine("==================================");
                     flag = true;
@@ -216,6 +217,23 @@ namespace LibraryManager
                             Wait();
                         }
 
+                        if (action[0] == "showBooksCategory")
+                        {
+                            Console.WriteLine("Podaj nazwę kategorii:");
+                            string catName = Console.ReadLine();
+
+                            Program.Catalog.showCategory(catName);
+                            Wait();
+                        }
+
+                        if (action[0] == "editBook")
+                        {
+                            Console.WriteLine("Podaj ID książki do edycji:");
+                            string bookId = Console.ReadLine();
+
+                            if (int.TryParse(bookId, out _)) Program.Catalog.EditBook(Convert.ToInt32(bookId));
+                            Wait();
+                        }
                     }
                 }
             }

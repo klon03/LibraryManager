@@ -4,8 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace LibraryManager
 {
@@ -91,13 +93,19 @@ namespace LibraryManager
 
         public void showCategory(string category)
         {
+            bool flag = false;
             foreach (var cat in CategoryList)
             {
                 if (cat.name == category)
                 {
                     cat.ShowCategoryInfo();
+                    flag = true;
                     break;
                 }
+            }
+            if (!flag)
+            {
+                Console.WriteLine("Nie odnaleziono kategorii.");
             }
         }
 
@@ -164,6 +172,75 @@ namespace LibraryManager
             }
 
             return null;
+        }
+
+        // Zapisywanie książek po edycji do pliku
+        public void SaveToFile()
+        {
+            var newCsv = new StringBuilder();
+            newCsv.Append("ID;Title;Description;Price;Status\n");
+            foreach (var b in BookList)
+            {
+                newCsv.Append(b.exportBookData());
+            }
+            File.WriteAllText("./data/books.csv", newCsv.ToString());
+        }
+
+        public void EditBook (int id)
+        {
+            Book book = GetBook(id);
+
+            Console.WriteLine("Podaj nowy tytuł (ENTER aby pozostawić " +book.title+"):");
+            string title = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(title)) title = book.title;
+
+            Console.WriteLine("Podaj nowy opis (ENTER aby pozostawić domyślny):");
+            string description = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(description)) description = book.description;
+
+            Console.WriteLine("Podaj nową kategorię (ENTER aby pozostawić " + book.category + "):");
+            string category = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(category)) category = book.category;
+
+            Console.WriteLine("Podaj nową cenę (ENTER aby pozostawić " + Convert.ToString(book.price) + "):");
+            string price = Console.ReadLine();
+            decimal priceDec = 0;
+            
+            if (string.IsNullOrWhiteSpace(price)) priceDec = book.price; else if (!decimal.TryParse(price, out _)) priceDec = Convert.ToDecimal(price);
+
+            Console.WriteLine("Podaj nowy status (ENTER aby pozostawić " + Convert.ToString(book.status) + ", 1 - wypożycznona, 2 - dostępna):");
+            string status = Console.ReadLine();
+            Book.BookStatus statusFormatted;
+
+            if (string.IsNullOrWhiteSpace(status)) statusFormatted = book.status; else statusFormatted = status == "1" ? Book.BookStatus.Dostepna : Book.BookStatus.Wypozyczona;
+
+            book.EditBook(title, description, category, priceDec, statusFormatted);
+            UpdateLists();
+            SaveToFile();
+        }
+
+        public void UpdateLists()
+        {
+            CategoryList.Clear();
+
+            foreach (var book in BookList)
+            {
+                if (CategoryList.Any(item => item.name == book.category))
+                {
+                    foreach (var cat in CategoryList)
+                    {
+                        if (cat.name == book.category)
+                        {
+                            cat.addBook(book);
+                        }
+                    }
+                }
+                else
+                {
+                    CategoryList.Add(new Category(book.category));
+                    CategoryList[CategoryList.Count - 1].addBook(book);
+                }
+            }
         }
     }
 }
