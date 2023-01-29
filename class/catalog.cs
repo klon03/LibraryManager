@@ -115,10 +115,9 @@ namespace LibraryManager
             bool found = false;
 
             // Tego while'a i showBooks mozna w sumie usunac bo ma to robic front, ktory przekaze do metody id ksiazki i reszta podziala juz normalnie
-            this.ShowBooks();
             while (!found)
             {
-                Console.Write("Podaj id książki, którą chcesz usunąć: ");
+                Console.Write("Podaj ID książki, którą chcesz usunąć: ");
                 delId = Convert.ToInt32(Console.ReadLine());
                 string delCat;
 
@@ -150,14 +149,8 @@ namespace LibraryManager
 
             }
 
-            // Zapis zaktualizowanej listy do pliku
-            var newCsv = new StringBuilder();
-            newCsv.Append("ID;Title;Description;Price;Status");
-            foreach (var book in BookList)
-            {
-                newCsv.Append(book.exportBookData());
-            }
-            File.WriteAllText("./data/books.csv", newCsv.ToString());
+            UpdateLists();
+            SaveToFile();
         }
 
         // Wyciąganie obiektu książki na zewnątrz
@@ -210,11 +203,66 @@ namespace LibraryManager
 
             Console.WriteLine("Podaj nowy status (ENTER aby pozostawić " + Convert.ToString(book.status) + ", 1 - wypożycznona, 2 - dostępna):");
             string status = Console.ReadLine();
-            Book.BookStatus statusFormatted;
+            Book.BookStatus statusFormatted = book.status;
 
-            if (string.IsNullOrWhiteSpace(status)) statusFormatted = book.status; else statusFormatted = status == "1" ? Book.BookStatus.Dostepna : Book.BookStatus.Wypozyczona;
+            if (string.IsNullOrWhiteSpace(status))
+            {
+                statusFormatted = book.status;
+            }
+            else
+            {
+                if (status == "1")
+                {
+                    statusFormatted = Book.BookStatus.Wypozyczona;
+                }
+                else if (status == "2")
+                {
+                    statusFormatted = Book.BookStatus.Dostepna;
+                }
+            }
+  
 
             book.EditBook(title, description, category, priceDec, statusFormatted);
+            UpdateLists();
+            SaveToFile();
+        }
+
+        public void AddNewBook()
+        {
+            string title = "", description = "", category = "", price = "";
+            decimal priceDec = 0;
+            
+            Console.WriteLine("Podaj tytuł książki:");
+            while (string.IsNullOrWhiteSpace(title))
+            {
+                title = Console.ReadLine();
+            }
+
+            Console.WriteLine("Podaj opis książki (może być pusty):");
+            description = Console.ReadLine();
+
+            Console.WriteLine("Podaj kategorię książki:");
+            while (string.IsNullOrWhiteSpace(category))
+            {
+                category = Console.ReadLine();
+            }
+
+            bool flag = true;
+            Console.WriteLine("Podaj cenę książki:");
+            while (flag)
+            {
+                price = Console.ReadLine();
+                if (!string.IsNullOrWhiteSpace(price) && decimal.TryParse(price, out _))
+                {
+                    flag = false;
+                    priceDec = Convert.ToDecimal(price);
+                }
+                else { Console.WriteLine("Nieprawidłowa wartość"); }
+            }
+
+            Book newBook = new Book(BookList.Last().id+1, title, description, category, priceDec, Book.BookStatus.Dostepna);
+            BookList.Add(newBook);
+
             UpdateLists();
             SaveToFile();
         }
@@ -241,6 +289,19 @@ namespace LibraryManager
                     CategoryList[CategoryList.Count - 1].addBook(book);
                 }
             }
+        }
+
+        public void ChangeCategoryName(string from, string to)
+        {
+            foreach (var book in BookList)
+            {
+                if (book.category== from)
+                {
+                    book.category = to;
+                }
+            }
+            UpdateLists();
+            SaveToFile();
         }
     }
 }

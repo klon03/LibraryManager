@@ -25,6 +25,7 @@ namespace LibraryManager
             {
                 
                 ui.ShowActions();
+                Console.Write("\nWybór: ");
                 ui.input = Console.ReadLine();
                 Console.WriteLine("");
                 ui.Execute();

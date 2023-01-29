@@ -17,12 +17,17 @@ namespace LibraryManager
 
         public Frontend()
         {
-            AddAction("newReceipt", "Utwórz nowy rachunek.");
+            
             AddAction("showCategories", "Wyświetl wszystkie kategorie.");
             AddAction("showBooks", "Wyświetl wszystkie książki.");
             AddAction("showBook", "Wyświetl dane książki.");
             AddAction("showBooksCategory", "Wyświetl wszystkie książki z wybranej kategorii.");
             AddAction("editBook", "Edytuj książkę.");
+            AddAction("addBook", "Dodaj nową książkę.");
+            AddAction("deleteBook", "Usuń książkę.");
+            AddAction("changeCategoryName", "Zmień nazwę kategorii.");
+            AddAction("receiveBookReceipt", "Przyjmij zwrot książki.");
+            AddAction("newReceipt", "Utwórz nowy rachunek.");
         }
 
         public void ShowActions()
@@ -233,6 +238,49 @@ namespace LibraryManager
 
                             if (int.TryParse(bookId, out _)) Program.Catalog.EditBook(Convert.ToInt32(bookId));
                             Wait();
+                        }
+
+                        if (action[0] == "changeCategoryName")
+                        {
+                            Console.WriteLine("Podaj kategorię do zmiany:");
+                            string from = Console.ReadLine();
+
+                            Console.WriteLine("Podaj nową nazwę kategorii:");
+                            string to = Console.ReadLine();
+
+                            Program.Catalog.ChangeCategoryName(from, to);
+                            Wait();
+                        }
+
+                        if (action[0] == "receiveBookReceipt")
+                        {
+                            Console.WriteLine("Podaj ID przyjmowanej książki:");
+                            string bookId = Console.ReadLine();
+                            if (int.TryParse(bookId, out _))
+                            {
+                                Book book = Program.Catalog.GetBook(Convert.ToInt32(bookId));
+                                if (book.status == Book.BookStatus.Wypozyczona)
+                                {
+                                    book.ChangeStatus(Book.BookStatus.Dostepna);
+                                    Program.Catalog.UpdateLists();
+                                    Program.Catalog.SaveToFile();
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Ta książka nie została wypożyczona.");
+                                    Wait();
+                                }
+                            }
+                        }
+
+                        if (action[0] == "addBook")
+                        {
+                            Program.Catalog.AddNewBook();
+                        }
+
+                        if (action[0] == "deleteBook")
+                        {
+                            Program.Catalog.DeleteBook();
                         }
                     }
                 }
