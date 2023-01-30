@@ -17,7 +17,6 @@ namespace LibraryManager
         public decimal price { get; set; }
         public BookStatus status { get; set; }
 
-
         public enum BookStatus
         {
             Dostepna,

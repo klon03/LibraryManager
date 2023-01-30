@@ -220,7 +220,6 @@ namespace LibraryManager
                     statusFormatted = Book.BookStatus.Dostepna;
                 }
             }
-  
 
             book.EditBook(title, description, category, priceDec, statusFormatted);
             UpdateLists();
@@ -302,6 +301,88 @@ namespace LibraryManager
             }
             UpdateLists();
             SaveToFile();
+        }
+
+        public void ShowBooks()
+        {
+            foreach(var book in BookList)
+            {
+                Console.WriteLine(book.id + " " + book.title);
+            }
+        }
+
+        public void ShowBook(int id)
+        {
+            foreach(var book in BookList)
+            {
+                if (book.id == id)
+                {
+                    Console.WriteLine(book.id + " " + book.title);
+                }
+                break;
+            }
+        }
+
+        public void showCategory(string category)
+        {
+            foreach (var cat in CategoryList)
+            {
+                if (cat.name == category)
+                {
+                    cat.ShowCategoryInfo();
+                    break;
+                }
+            }
+        }
+
+        public void DeleteBook()
+        {
+            int delId;
+            bool found = false;
+
+            // Tego while'a i showBooks mozna w sumie usunac bo ma to robic front, ktory przekaze do metody id ksiazki i reszta podziala juz normalnie
+            this.ShowBooks();
+            while (!found)
+            {
+                Console.Write("Podaj id książki, którą chcesz usunąć: ");
+                delId = Convert.ToInt32(Console.ReadLine());
+                string delCat;
+
+                // Usuwanie z globalnej listy ksiazek
+                foreach (var book in BookList)
+                {
+                    if (book.id == delId)
+                    {
+                        delCat = book.category;
+                        BookList.Remove(book);
+                        found = true;
+                        // Usuwanie z kategorii
+                        foreach (var cat in CategoryList)
+                        {
+                            if (cat.name == delCat)
+                            {
+                                cat.removeBook(book);
+                                // Usuniecie kategorii jesli po usunieciu ksiazki lista pozostaje pusta
+                                if (cat.books.Count == 0) {
+                                    CategoryList.Remove(cat);
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+                    }
+                }
+                
+            }
+
+            // Zapis zaktualizowanej listy do pliku
+            var newCsv = new StringBuilder();
+            newCsv.Append("ID;Title;Description;Price;Status");
+            foreach (var book in BookList)
+            {
+                newCsv.Append(book.exportBookData());
+            }
+            File.WriteAllText("./data/books.csv", newCsv.ToString());
         }
     }
 }
