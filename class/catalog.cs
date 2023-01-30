@@ -109,49 +109,7 @@ namespace LibraryManager
             }
         }
 
-        public void DeleteBook()
-        {
-            int delId;
-            bool found = false;
-
-            // Tego while'a i showBooks mozna w sumie usunac bo ma to robic front, ktory przekaze do metody id ksiazki i reszta podziala juz normalnie
-            while (!found)
-            {
-                Console.Write("Podaj ID książki, którą chcesz usunąć: ");
-                delId = Convert.ToInt32(Console.ReadLine());
-                string delCat;
-
-                // Usuwanie z globalnej listy ksiazek
-                foreach (var book in BookList)
-                {
-                    if (book.id == delId)
-                    {
-                        delCat = book.category;
-                        BookList.Remove(book);
-                        found = true;
-                        // Usuwanie z kategorii
-                        foreach (var cat in CategoryList)
-                        {
-                            if (cat.name == delCat)
-                            {
-                                cat.removeBook(book);
-                                // Usuniecie kategorii jesli po usunieciu ksiazki lista pozostaje pusta
-                                if (cat.books.Count == 0)
-                                {
-                                    CategoryList.Remove(cat);
-                                    break;
-                                }
-                            }
-                        }
-                        break;
-                    }
-                }
-
-            }
-
-            UpdateLists();
-            SaveToFile();
-        }
+        
 
         // Wyciąganie obiektu książki na zewnątrz
         public Book GetBook(int id)
@@ -301,38 +259,6 @@ namespace LibraryManager
             }
             UpdateLists();
             SaveToFile();
-        }
-
-        public void ShowBooks()
-        {
-            foreach(var book in BookList)
-            {
-                Console.WriteLine(book.id + " " + book.title);
-            }
-        }
-
-        public void ShowBook(int id)
-        {
-            foreach(var book in BookList)
-            {
-                if (book.id == id)
-                {
-                    Console.WriteLine(book.id + " " + book.title);
-                }
-                break;
-            }
-        }
-
-        public void showCategory(string category)
-        {
-            foreach (var cat in CategoryList)
-            {
-                if (cat.name == category)
-                {
-                    cat.ShowCategoryInfo();
-                    break;
-                }
-            }
         }
 
         public void DeleteBook()

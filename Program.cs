@@ -11,7 +11,7 @@ namespace LibraryManager
         public static Catalog Catalog;
         static void Main(string[] args)
         {
-            Dictionary<string, string> actions = new Dictionary<string, string>();
+            //Dictionary<string, string> actions = new Dictionary<string, string>();
 
             //Book lotr = new Book("Lord of the Rings;Akcja, kosmici, elfy; 15; 1", "Przygodowa", 1);
             //lotr.ShowData();
