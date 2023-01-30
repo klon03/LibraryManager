@@ -14,13 +14,7 @@ namespace LibraryManager
 
         public void ShowCategoryInfo()
         {
-            Console.WriteLine("Nazwa: {0}", name);
-            Console.WriteLine("-------------------");
-            foreach (var book in books)
-            {
-                Console.WriteLine(book.id + " " + book.title + " " + book.price + " " + book.status);
-            }
-
+            Frontend.PrintBookTable(books);
         }
 
         public void addBook(Book book)

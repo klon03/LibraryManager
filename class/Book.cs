@@ -19,7 +19,7 @@ namespace LibraryManager
         public enum BookStatus
         {
             Dostepna,
-            Wypozyczona,
+            Wypozyczona
         }
 
 
@@ -48,6 +48,11 @@ namespace LibraryManager
             this.description = description;
             this.category = category;
             this.price = price;
+            this.status = status;
+        }
+
+        public void ChangeStatus(BookStatus status)
+        {
             this.status = status;
         }
 

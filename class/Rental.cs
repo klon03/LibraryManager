@@ -16,7 +16,6 @@ namespace LibraryManager
         public string end { get; set; }
         public decimal price { get; set; }
         public BookStatus status { get; set; }
-        
 
         public enum BookStatus
         {
@@ -42,16 +41,16 @@ namespace LibraryManager
             Console.WriteLine($"Data wyp: {start}");
             Console.WriteLine($"Data zw: {end}");
             Console.WriteLine($"Cena wypozyczenia: {price}");
-            Console.Write($"Status wyp: {status}")
+            Console.Write($"Status wyp: {status}");
         }
 
         public void EditBook(string title, string description, string category, decimal price, BookStatus status)
         {
-            this.title = title;
+            /*this.title = title;
             this.description = description;
             this.category = category;
             this.price = price;
-            this.status = status;
+            this.status = status;*/
         }
     }
 }

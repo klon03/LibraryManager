@@ -8,24 +8,26 @@ namespace LibraryManager
 {
     internal class Program
     {
+        public static Catalog Catalog;
         static void Main(string[] args)
         {
             Dictionary<string, string> actions = new Dictionary<string, string>();
 
-            Book lotr = new Book("Lord of the Rings;Akcja, kosmici, elfy; 15; 1", "Przygodowa", 1);
+            //Book lotr = new Book("Lord of the Rings;Akcja, kosmici, elfy; 15; 1", "Przygodowa", 1);
             //lotr.ShowData();
 
-            Catalog Catalog = new Catalog(@"data\books.csv");
+            Catalog = new Catalog(@"data\books.csv");
             //Catalog.ShowCategories();
-            
-            
-            Frontend ui = new Frontend();
 
+
+            Frontend ui = new Frontend();
             while (true)
             {
-
+                
                 ui.ShowActions();
+                Console.Write("\nWybór: ");
                 ui.input = Console.ReadLine();
+                Console.WriteLine("");
                 ui.Execute();
             }
         }
